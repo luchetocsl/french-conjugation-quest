@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import VerbInput from "./VerbInput";
 import { TextChallenge } from "../types/french";
-import { Lightbulb, SkipForward } from "lucide-react";
+import { Eye, SkipForward } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface FrenchGameProps {
   challenge: TextChallenge;
@@ -88,15 +94,22 @@ const FrenchGame = ({ challenge }: FrenchGameProps) => {
                   : null
               }
             />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => showHint(index)}
-              disabled={checked || hints[index]}
-              className="h-8 w-8"
-            >
-              <Lightbulb className="h-4 w-4" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => showHint(index)}
+                  disabled={checked || hints[index]}
+                  className="h-8 w-8 hover:bg-slate-100"
+                >
+                  <Eye className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Cliquez pour voir un indice</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
         )}
       </React.Fragment>
