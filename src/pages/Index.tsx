@@ -8,7 +8,7 @@ const Index = () => {
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Pratique de Conjugaison Française
         </h1>
-        <FrenchGame challenge={sampleText} />
+        <FrenchGame challenge={sampleText[0]} />
       </div>
     </div>
   );
