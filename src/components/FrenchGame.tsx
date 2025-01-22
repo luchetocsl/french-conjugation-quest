@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import VerbInput from "./VerbInput";
 import { TextChallenge } from "../types/french";
+import { Lightbulb, SkipForward } from "lucide-react";
 
 interface FrenchGameProps {
   challenge: TextChallenge;
@@ -14,12 +15,29 @@ const FrenchGame = ({ challenge }: FrenchGameProps) => {
     new Array(challenge.verbs.length).fill("")
   );
   const [checked, setChecked] = useState(false);
+  const [hints, setHints] = useState<boolean[]>(
+    new Array(challenge.verbs.length).fill(false)
+  );
   const { toast } = useToast();
 
   const handleInputChange = (index: number, value: string) => {
     const newAnswers = [...answers];
     newAnswers[index] = value;
     setAnswers(newAnswers);
+  };
+
+  const showHint = (index: number) => {
+    const newHints = [...hints];
+    newHints[index] = true;
+    setHints(newHints);
+    
+    const correctForm = challenge.verbs[index].correctForm;
+    const hintText = correctForm.substring(0, Math.ceil(correctForm.length / 2));
+    
+    toast({
+      title: "Indice",
+      description: `Le mot commence par: ${hintText}...`,
+    });
   };
 
   const checkAnswers = () => {
@@ -40,6 +58,18 @@ const FrenchGame = ({ challenge }: FrenchGameProps) => {
   const reset = () => {
     setAnswers(new Array(challenge.verbs.length).fill(""));
     setChecked(false);
+    setHints(new Array(challenge.verbs.length).fill(false));
+  };
+
+  const skip = () => {
+    toast({
+      title: "Exercise sauté",
+      description: "Voici les réponses correctes:",
+    });
+    
+    const correctAnswers = challenge.verbs.map(verb => verb.correctForm);
+    setAnswers(correctAnswers);
+    setChecked(true);
   };
 
   const renderText = () => {
@@ -47,16 +77,27 @@ const FrenchGame = ({ challenge }: FrenchGameProps) => {
       <React.Fragment key={index}>
         {segment}
         {index < challenge.verbs.length && (
-          <VerbInput
-            infinitive={challenge.verbs[index].infinitive}
-            value={answers[index]}
-            onChange={(value) => handleInputChange(index, value)}
-            isCorrect={
-              checked
-                ? challenge.verbs[index].correctForm === answers[index]
-                : null
-            }
-          />
+          <div className="inline-flex items-center gap-2">
+            <VerbInput
+              infinitive={challenge.verbs[index].infinitive}
+              value={answers[index]}
+              onChange={(value) => handleInputChange(index, value)}
+              isCorrect={
+                checked
+                  ? challenge.verbs[index].correctForm === answers[index]
+                  : null
+              }
+            />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => showHint(index)}
+              disabled={checked || hints[index]}
+              className="h-8 w-8"
+            >
+              <Lightbulb className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </React.Fragment>
     ));
@@ -77,6 +118,10 @@ const FrenchGame = ({ challenge }: FrenchGameProps) => {
           </Button>
           <Button onClick={reset} variant="outline">
             Recommencer
+          </Button>
+          <Button onClick={skip} variant="secondary" disabled={checked}>
+            <SkipForward className="mr-2 h-4 w-4" />
+            Passer
           </Button>
         </div>
       </CardContent>
