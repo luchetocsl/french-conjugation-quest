@@ -2,65 +2,59 @@
 
 ## Core Technologies
 
--   **React 18** - Frontend framework with TypeScript
--   **Vite** - Build tool and development server
+-   **Astro** - Static site generator with island architecture
+-   **React 18** - Interactive components with TypeScript
 -   **TypeScript** - Type-safe JavaScript
 -   **Tailwind CSS** - Utility-first CSS framework
 -   **Alpine.js** - Lightweight JavaScript framework for enhanced interactivity
 
-## UI Framework
+## Astro Features
 
--   **shadcn/ui** - Component library built on Radix UI primitives
--   **Radix UI** - Headless UI components for accessibility
--   **Lucide React** - Icon library
--   **class-variance-authority** - Component variant management
+-   **Island Architecture** - Interactive components only where needed
+-   **Static Site Generation** - Pre-rendered HTML for performance
+-   **React Integration** - Use React components with `client:load` directive
+-   **File-based routing** - Pages in `src/pages/` directory
+-   **Layout system** - Shared layouts in `src/layouts/`
 
-## State Management & Data
+## Alpine.js Integration
 
--   **React Query (@tanstack/react-query)** - Server state management
--   **React Hook Form** - Form handling with Zod validation
--   **React Router DOM** - Client-side routing
-
-## Development Tools
-
--   **ESLint** - Code linting with TypeScript support
--   **PostCSS** - CSS processing with Autoprefixer
--   **SWC** - Fast TypeScript/JavaScript compiler
+-   Alpine.js initialized in Layout.astro and available globally
+-   Use Alpine.js for lightweight interactive components
+-   Direct attribute syntax works seamlessly: `x-data="..."`, `x-on:click="..."`
+-   No JSX namespace issues (unlike React SWC setup)
+-   TypeScript support available via `@types/alpinejs`
 
 ## Common Commands
 
 ### Development
 
 ```bash
-npm run dev          # Start development server on port 8080
+npm run dev          # Start Astro development server
 npm run build        # Production build
-npm run build:dev    # Development build
 npm run preview      # Preview production build
+npm run astro        # Astro CLI commands
 npm run lint         # Run ESLint
+```
+
+### Astro-specific Commands
+
+```bash
+npm run astro add <integration>  # Add integrations
+npm run astro check             # Type checking
+npm run astro sync              # Sync content types
 ```
 
 ### Package Management
 
 -   Uses npm with package-lock.json
--   Also has bun.lockb indicating Bun compatibility
+-   All dependencies managed through npm
+-   No alternative package managers configured
 
 ## Build Configuration
 
--   Vite config includes path aliases (`@` -> `./src`)
--   Development server runs on `::` (all interfaces) port 8080
--   Lovable-specific development tooling integrated
-
-## Alpine.js Integration
-
--   Alpine.js is initialized in `main.tsx` and available globally
--   Use Alpine.js for lightweight interactive components that complement React
--   **SWC Configuration**: `.swcrc` file configures SWC with `"throwIfNamespace": false` to allow Alpine.js attributes
--   **Recommended approach**: Use spread operator syntax `{...{ 'x-data': '...' }}` for all Alpine.js attributes
--   Alpine.js attributes are typed using TypeScript declarations in `vite-env.d.ts`
--   TypeScript support available via `@types/alpinejs`
--   Use `useRef` and `Alpine.initTree()` for dynamic initialization if needed
-
--   Alpine.js is initialized in `main.tsx` and available globally
--   Use Alpine.js for lightweight interactive components that complement React
--   Alpine.js components can be embedded within React components using `x-data` attributes
--   TypeScript support available via `@types/alpinejs`
+-   Astro config in `astro.config.mjs`
+-   React integration with JSX support
+-   Tailwind CSS integration
+-   TypeScript with strict mode enabled
+-   Path aliases (`@` -> `./src`)
+-   Static output for deployment anywhere

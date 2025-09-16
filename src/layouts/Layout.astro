@@ -1,0 +1,33 @@
+---
+import "../index.css";
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang='fr'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta
+			name='description'
+			content="Application d'apprentissage de la conjugaison française"
+		/>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+
+		<!-- Alpine.js -->
+		<script>
+			import Alpine from "alpinejs";
+			window.Alpine = Alpine;
+			Alpine.start();
+		</script>
+	</body>
+</html>

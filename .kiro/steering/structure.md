@@ -5,57 +5,57 @@
 -   **src/** - Main application source code
 -   **public/** - Static assets (favicon, images)
 -   **.kiro/** - Kiro AI assistant configuration and steering rules
--   **.swcrc** - SWC configuration for Alpine.js attribute support
--   Configuration files at root level
+-   **astro.config.mjs** - Astro configuration
+-   **tailwind.config.ts** - Tailwind CSS configuration
+-   **tsconfig.json** - TypeScript configuration
 
 ## Source Code Organization (`src/`)
 
 ### Core Application
 
--   **main.tsx** - Application entry point
--   **App.tsx** - Root component with providers and routing
--   **App.css** - Global application styles
--   **index.css** - Base styles and Tailwind imports
+-   **pages/** - File-based routing (`.astro` files)
+    -   **index.astro** - Main landing page
+-   **layouts/** - Shared page layouts
+    -   **Layout.astro** - Base layout with Alpine.js initialization
+-   **index.css** - Global styles with Tailwind imports
 
 ### Component Architecture
 
--   **components/** - Reusable React components
-    -   **ui/** - shadcn/ui component library (40+ components)
-    -   **FrenchGame.tsx** - Main game component
-    -   **VerbInput.tsx** - Input component for verb conjugation
-    -   **AlpineHintsSimple.tsx** - Alpine.js powered hints component
--   **pages/** - Route-level page components
-    -   **Index.tsx** - Main landing page
+-   **components/** - Reusable components
+    -   **FrenchGame.tsx** - Main game component (React with `client:load`)
 
 ### Data & Types
 
 -   **types/** - TypeScript type definitions
     -   **french.ts** - Game-specific interfaces (VerbChallenge, TextChallenge)
 -   **data/** - Static data and content
-    -   **sampleText.ts** - French exercise content
+    -   **exercisesSimple.ts** - French exercises in simplified format
+-   **utils/** - Utility functions
+    -   **exerciseParser.ts** - Converts simple format to full TextChallenge objects
 
-### Utilities
+## Astro Conventions
 
--   **lib/** - Utility functions
-    -   **utils.ts** - Common utilities (likely cn() for className merging)
--   **hooks/** - Custom React hooks
-    -   **use-toast.ts** - Toast notification hook
-    -   **use-mobile.tsx** - Mobile detection hook
+### File Types
 
-## Import Conventions
+-   **`.astro` files** - Astro components/pages with frontmatter and template
+-   **`.tsx` files** - React components for interactive islands
+-   **`.ts` files** - TypeScript utilities and types
 
--   Use `@/` path alias for src imports
--   Import shadcn/ui components from `@/components/ui/`
--   Import custom components with relative paths when in same directory
+### Import Patterns
 
-## File Naming
+-   Astro components: `import Layout from '../layouts/Layout.astro'`
+-   React components: `import FrenchGame from '../components/FrenchGame'`
+-   Types: `import type { TextChallenge } from '../types/french'`
 
--   React components use PascalCase (e.g., `FrenchGame.tsx`)
--   Utility files use kebab-case (e.g., `use-toast.ts`)
--   Type files use camelCase (e.g., `french.ts`)
+### Client Directives
 
-## Component Structure
+-   `client:load` - Hydrate component immediately
+-   `client:idle` - Hydrate when browser is idle
+-   `client:visible` - Hydrate when component is visible
 
--   Components follow shadcn/ui patterns with forwardRef and proper TypeScript typing
--   Use Tailwind classes for styling
--   Implement proper accessibility with Radix UI primitives
+## Alpine.js Integration
+
+-   Initialized in Layout.astro script tag
+-   Direct attribute syntax: `x-data`, `x-show`, `x-on:click`
+-   No build configuration needed (unlike React SWC)
+-   Works seamlessly with Astro's island architecture
